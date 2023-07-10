@@ -231,7 +231,7 @@ public class HelloApplication extends Application {
         if (FreeSlots3 < FreeSlots2 || FreeSlots2 == 3) {
             cashier = 3;
         }
-        if (FreeSlots1 == 1) {
+        if (FreeSlots1 == 1 && FreeSlots2>1) {
             cashier = 1;
         }
         return cashier;
