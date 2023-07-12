@@ -5,8 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class HelloController {
+    @FXML
+    private javafx.scene.control.Button closeButton;
     @FXML
     private Label c1r1,c1r2,c2r1,c2r2,c2r3,c3r1,c3r2,c3r3,c3r4,c3r5;
     @FXML
@@ -97,5 +100,13 @@ public class HelloController {
                 j++;
             }
         }
+    }
+
+    @FXML
+    private void onQuitButton(){
+        // get a handle to the stage
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 }
