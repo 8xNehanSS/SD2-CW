@@ -116,15 +116,6 @@ public class HelloApplication extends Application {
         guiThread.start();
     }
 
-    public static void Check(FoodQueue WaitingLIST) {
-        Customer[] WaitingArray = WaitingLIST.getQueue();
-        for(Customer element:WaitingArray){
-            if(element!=null){
-                System.out.println(element.getName());
-            }
-        }
-    }
-
     public static void CheckCashierIncome() {
         int IncomeONE = BurgersSold[0]*650;
         int IncomeTWO = BurgersSold[1]*650;
@@ -166,9 +157,9 @@ public class HelloApplication extends Application {
             String value1 = " ";
             String value2 = " ";
             String value3 = "";
-            if(i<CashierONE.length) {if(i<2){if(CashierONE[i]!=null) { value1 = "O"; } else { value1 = "X";}}}
-            if(i<CashierTWO.length) {if(i<3){if(CashierTWO[i]!=null) { value2 = "O"; } else { value2 = "X";}}}
-            if(i<CashierTHREE.length) {if(i<5){if(CashierTHREE[i]!=null) { value3 = "O"; } else { value3 = "X";}}}
+            if(i<CashierONE.length) {if(CashierONE[i]!=null) { value1 = "O"; } else { value1 = "X";}}
+            if(i<CashierTWO.length) {if(CashierTWO[i]!=null) { value2 = "O"; } else { value2 = "X";}}
+            if(i<CashierTHREE.length) {if(CashierTHREE[i]!=null) { value3 = "O"; } else { value3 = "X";}}
 
             System.out.println("   "+value1+"   "+value2+"   "+value3);
         }
@@ -222,17 +213,25 @@ public class HelloApplication extends Application {
         return count;
     }
 
-    public static int CheckMinCustomers(int FreeSlots1, int FreeSlots2, int FreeSlots3) {
+    public static int CheckMinCustomers(FoodQueue[] Queue) {
+        Customer[] CashierONE = Queue[0].getQueue();
+        Customer[] CashierTWO = Queue[1].getQueue();
+        Customer[] CashierTHREE = Queue[2].getQueue();
         int cashier = 1;
-        if (FreeSlots2 < FreeSlots1 || FreeSlots1 == 2) {
-            cashier = 2;
-        }
-
-        if (FreeSlots3 < FreeSlots2 || FreeSlots2 == 3) {
-            cashier = 3;
-        }
-        if (FreeSlots1 == 1 && FreeSlots2>1) {
-            cashier = 1;
+        for(int i=0;i<5;i++) {
+            if (i < CashierONE.length && CashierONE[i] == null) {
+                cashier = 1;
+                break;
+            } else if (i < CashierTWO.length && CashierTWO[i] == null) {
+                cashier = 2;
+                break;
+            } else if (i < CashierTHREE.length && CashierTHREE[i] == null) {
+                cashier = 3;
+                break;
+            } else if (i == 4) {
+                cashier = 0;
+                break;
+            }
         }
         return cashier;
     }
@@ -276,7 +275,7 @@ public class HelloApplication extends Application {
             }
         }
 
-        int cashier = CheckMinCustomers(FreeSlots1, FreeSlots2, FreeSlots3);
+        int cashier = CheckMinCustomers(Queue);
 
         if(cashier == 1){
             Queue[0].setCustomer(newCustomer);
@@ -559,16 +558,17 @@ public class HelloApplication extends Application {
         try {
             FileWriter myWriter = new FileWriter("cashierdata.txt");
             //writing the data
-            for(Customer[] element:cashier) {
-                for(Customer element1:element){
-                    String name = "null null";
-                    int Burgers = 0;
-                    if(element1 !=null){
-                        name = element1.getName();
-                        Burgers = element1.getRequiredBurgers();
-                    }
-                    myWriter.write(name+":"+Burgers+",");
-                }
+            for (int i = 0; i < 5; i++) {
+                String name1,name2,name3;
+                name1 = name2 = name3 ="null null";
+                int Burgers1, Burgers2, Burgers3;
+                Burgers1 = Burgers2 = Burgers3 = 0;
+                if(i<CashierONE.length) {if(CashierONE[i]!=null) { name1 = CashierONE[i].getName(); Burgers1 = CashierONE[i].getRequiredBurgers(); }
+                    myWriter.write(name1+":"+Burgers1+",");}
+                if(i<CashierTWO.length) {if(CashierTWO[i]!=null) { name2 = CashierTWO[i].getName(); Burgers2 = CashierTWO[i].getRequiredBurgers(); }
+                    myWriter.write(name2+":"+Burgers2+",");}
+                if(i<CashierTHREE.length) {if(CashierTHREE[i]!=null) {  name3 = CashierTHREE[i].getName(); Burgers3 = CashierTHREE[i].getRequiredBurgers(); }
+                    myWriter.write(name3+":"+Burgers3+",");}
             }
             myWriter.write("\n");
             String BURGERS = Integer.toString(BurgerStock);
