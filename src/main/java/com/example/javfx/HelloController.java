@@ -17,6 +17,8 @@ public class HelloController {
     @FXML
     private Label search1,search2,search3,search4;
     @FXML
+    private Label burgercount;
+    @FXML
     private TextField textboxname;
     @FXML
     public void onUpdateButtonClick() {
@@ -24,6 +26,9 @@ public class HelloController {
         Customer[] CashierTWO = HelloApplication.Queue[1].getQueue();
         Customer[] CashierTHREE = HelloApplication.Queue[2].getQueue();
         Customer[][] AllCashiers = {CashierONE,CashierTWO,CashierTHREE};
+        String Burgers = Integer.toString(HelloApplication.BurgerStock);
+
+        burgercount.setText(Burgers);
 
         Label[] LabelsC1 = {c1r1,c1r2};
         Label[] LabelsC2 = {c2r1,c2r2,c2r3};
@@ -55,6 +60,7 @@ public class HelloController {
     @FXML
     protected void onSearchButtonClick() {
         String text = textboxname.getText().toLowerCase().trim().replaceAll("\\s+", "");
+        if(text.equals("")){return;}
         Customer[] CashierONE = HelloApplication.Queue[0].getQueue();
         Customer[] CashierTWO = HelloApplication.Queue[1].getQueue();
         Customer[] CashierTHREE = HelloApplication.Queue[2].getQueue();
@@ -66,7 +72,7 @@ public class HelloController {
         for(Customer[] Cashier:AllCashiers) {
             for(Customer element:Cashier) {
                 if(element!=null){ customers[count] = element.getName().trim(); }
-                else { customers[count] = "-"; }
+                else { customers[count] = ""; }
                 count++;
             }
         }
@@ -104,9 +110,7 @@ public class HelloController {
 
     @FXML
     private void onQuitButton(){
-        // get a handle to the stage
         Stage stage = (Stage) closeButton.getScene().getWindow();
-        // do what you have to do
         stage.close();
     }
 }

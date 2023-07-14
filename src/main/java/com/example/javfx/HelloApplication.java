@@ -26,7 +26,7 @@ public class HelloApplication extends Application {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static int[] BurgersSold = new int[3];
-    private static int BurgerStock = 50;
+    public static int BurgerStock = 50;
     public static FoodQueue[] Queue = new FoodQueue[]{
             new FoodQueue(2),
             new FoodQueue(3),
@@ -93,7 +93,7 @@ public class HelloApplication extends Application {
                     CheckCashierIncome();
                     break;
                 case "112","GUI":
-                    System.out.println("GUI Launched!\n");
+                    System.out.println("Launching..\n");
                     launchGUI();
                     break;
                 default:
@@ -110,7 +110,7 @@ public class HelloApplication extends Application {
             try {
                 launch(); // Launch the JavaFX Application
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.print("\n\nGUI has already been launched.\nRun the application again to open GUI again!\n\nEnter the option:");
             }
         });
         guiThread.start();
